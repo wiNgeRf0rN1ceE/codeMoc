@@ -1,0 +1,78 @@
+<section id="content" class="user-authenticate">
+  <h1>Users list</h1>
+  <div>
+    <ngx-datatable class="material"
+      [rows]="rows" 
+      [columns]="[{prop:'id'},{name:'fio'},{name:'phone'},{name:'mail'},{name:'avtor'}]"
+      [columnMode]="'flex'"
+      [headerHeight]="50" 
+      [footerHeight]="50" 
+      [rowHeight]="'auto'" 
+      [externalPaging]="true" 
+      [count]="count"
+      [offset]="offset" 
+      [limit]="limit" 
+      [selected]="selected" 
+      [selectionType]="'single'"
+      (activate)="onActivate($event)" 
+      (select)='onSelect($event)'
+      (page)='onPage($event)'>
+      <ngx-datatable-column name="id" [flexGrow]="1">
+        <template let-column="column" ngx-datatable-header-template>
+          <span (click)="sort()">{{column.name}}</span>
+        </template>
+        <template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="fio" [flexGrow]="3">
+        <template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          {{column.name}}
+        </template>
+        <template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="phone" [flexGrow]="3">
+        <template let-column="column" ngx-datatable-header-template>
+          {{column.name}}
+        </template>
+        <template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="mail" [flexGrow]="3">
+        <template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          {{column.name}}
+        </template>
+        <template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="avtor" [flexGrow]="3">
+        <template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          {{column.name}}
+        </template>
+        <template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{value}}
+          <button class="btn btn-default btn-icon waves-effect waves-circle waves-float"><i class="zmdi zmdi-edit zmdi-hc-fw"></i></button>
+          <button class="btn btn-default btn-icon waves-effect waves-circle waves-float"><i class="zmdi zmdi-delete zmdi-hc-fw"></i></button>
+        </template>
+      </ngx-datatable-column>
+      </ngx-datatable>
+  </div>
+  <user-edit>
+  </user-edit>
+  <div class='selected-column'>
+    <ul>
+      <li *ngFor='let sel of selected'>
+        <input [(ngModel)]="sel.id" type="text">
+        <input [(ngModel)]="sel.fio" type="text">
+        <input [(ngModel)]="sel.phone" type="text">
+        <input [(ngModel)]="sel.mail" type="text">
+        <input [(ngModel)]="sel.avtor" type="text">
+      </li>
+      <li *ngIf="!selected.length">No Selections</li>
+    </ul>
+  </div>
+</section>

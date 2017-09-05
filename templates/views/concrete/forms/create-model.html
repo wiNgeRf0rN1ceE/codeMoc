@@ -1,0 +1,30 @@
+<form *ngIf="active" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Модель автомобиля:</label>
+        <div class="fg-line">
+          <input type="text" class="form-control" formControlName="caption_model">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="fg-line">
+          <div class="select">
+            <label>Марка автомобиля <sup class="text-danger">*</sup></label>
+            <select formControlName="mark_id" class="form-control">
+              <option value="" selected disabled>Выбрать элемент</option>
+              <option *ngFor="let item of data" [value]="item.id">{{item.caption}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="fg-line">
+      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Сохранить и закрыть</button>
+    </div>
+  </div>
+</form>

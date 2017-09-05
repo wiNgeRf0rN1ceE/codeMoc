@@ -1,0 +1,33 @@
+<form *ngIf="active"  [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Адрес точки <sup class="text-danger">*</sup></label>
+        <div class="fg-line">
+          <input type="text" class="form-control" (ngModelChange)="onChange($event)" formControlName="address">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Широта <sup class="text-danger">*</sup></label>
+        <div class="fg-line">
+          <input type="text" class="form-control" formControlName="latitude">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Долгота <sup class="text-danger">*</sup></label>
+        <div class="fg-line">
+           <input type="text" class="form-control" formControlName="longitude">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="fg-line">
+      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Сохранить и закрыть</button>
+    </div>
+  </div>
+</form>

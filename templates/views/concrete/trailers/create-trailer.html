@@ -1,0 +1,57 @@
+<form *ngIf="active" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Номер трейлера:<sup class="text-danger">*</sup></label>
+                <div class="fg-line">
+                    <input class="form-control" type="text" formControlName="gos_number" placeholder="А123АЯ12">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Тоннаж:<sup class="text-danger">*</sup></label>
+                <div class="fg-line">
+                    <input class="form-control" type="text" formControlName="capacity" placeholder="45.6">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-md-6">
+        <label>Група ТС:</label>
+        <ng-select [allowClear]="true"
+                [api_action]="'vhc.group_list'"
+                [new_element]="create_group"
+                [afterNewValue]="afterNewValue"
+                [selectedData]="resetModel"
+                [elementSelected]="elementSelected"
+                [clearSelectValue]="clearValue"
+                (selected)="selected($event)"
+                placeholder="Выбрать элемент">
+        </ng-select>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+            <label>Компания:</label>
+            <ng-select 
+                [multiple]="true"
+                [api_action]="'company.list'"
+                [clearSelectValue]="clearValue"
+                (selected)="selectedCompany($event)"
+                (removed)="removedCompany($event)"
+                placeholder="Выбрать элемент">
+            </ng-select>
+      </div>
+    </div>
+    </div>
+    <div class="form-group">
+        <div class="fg-line">
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Сохранить и закрыть</button>
+        </div>
+    </div>
+</form>
+
+<material-window #createGroup [title]="'Новая група автомобилей'">
+    <vehicles-group-create (send_value)="getValue($event)" (form_submit)="onGroupCreate($event)"></vehicles-group-create>
+</material-window>

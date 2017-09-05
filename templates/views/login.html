@@ -1,0 +1,24 @@
+<div class="text-center">
+  <div class="lc-block toggled" id="l-register">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="input-group m-b-20">
+        <span class="input-group-addon"></span>
+        <div class="fg-line">
+          <input type="text" class="form-control" placeholder="Логин" formControlName="login">
+        </div>
+      </div>
+      <div class="input-group m-b-20">
+        <span class="input-group-addon"></span>
+        <div class="fg-line">
+          <input type="password" class="form-control" placeholder="Пароль" formControlName="password">
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <button type="submit" class="btn btn-login btn-danger btn-float" [disabled]="!form.valid">
+        <i class="zmdi zmdi-arrow-forward"></i>
+      </button>
+    </form>
+  </div>
+</div>

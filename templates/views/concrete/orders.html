@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="block-header">
+        <h2>Список заказов</h2>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2>Список заказов <small>Небольшое описание этого компонента</small></h2>
+            <ul class="actions">
+              <li>
+                <a href="javascript:void(0)" (click)="createFire()">
+                  <i class="zmdi zmdi-plus"></i>
+                </a>
+              </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="bootgrid-header container-fluid">
+                        <div class="search form-group">
+                            <div class="input-group">
+                                <span class="zmdi icon input-group-addon zmdi-search zmdi-hc-fw"></span>
+                                <input type="text" [ngModel]="search" (ngModelChange)="onSearch($event)" class="search-field form-control" placeholder="Search">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            <material-table
+                [api_action]="api_action"
+                [columns]="columns"
+                [removable]=false
+                [editable]=false
+                [sort]="sort"
+                [search]="search"
+                (action_table_sorting)="onSort($event)"
+                (action_element_edit)="actionEditOrder($event)" 
+                (action_element_remove)="removeFire($event)">
+            </material-table>
+            <material-window draggable-window *ngFor="let order of orders_on_open"
+                [opened]="true"
+                [cssClass]="'w-800'"
+                [title]="title_window"
+                (populate_state)="openWindowCloseOrder(order)">
+                <vehicles-list
+                    [order]="order"
+                    (update_order)="onOrderUpdate($event)">
+                </vehicles-list>
+            </material-window>
+            <material-window draggable-window="true" #addOrder
+                [title]="'Создать новый заказ'">
+                <order-create (form_create)="onOrderCreate($event)">
+                </order-create>
+            </material-window>
+            <material-window draggable-window *ngFor="let order of order_edit" 
+                    [title]="'Редактирование заказа'" 
+                    [opened]="true" 
+                    (populate_state)="editWindowClose(order)">
+                        <order-edit 
+                        [order]="order" 
+                        (form_edit)="onOrderEdit($event)"></order-edit>
+            </material-window>
+            <template #btn let-row="row">
+                <div class="btn-group">                    
+                    <div class="btn-group" dropdown>
+                        <button type="button" class="btn btn-default dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false" (click)="openFire(row)">
+                            Передать заказ
+                            <i class="zmdi zmdi-chevron-down zmdi-hc-fw" dropdownToggle></i>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="javascript:void(0)" (click)="displayOrder(row.id)">Информация о заказе</a></li>
+                            <li><a href="javascript:void(0)" (click)="actionEditOrder(row)">Редактировать заказ</a></li>
+                            <li *ngIf="row.progress_weight == null"><a href="javascript:void(0)" (click)="removeFire(row)">Удалить заказ</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!--<a href="javascript:void(0)" (click)="openFire(row)"
+                class="btn btn-default btn-icon waves-effect waves-circle waves-float">
+                <span class="zmdi zmdi-chevron-right"></span></a>-->
+            </template>
+            <material-window [title]="'Информация о заказе № ' + order_id" [cssClass]="'w-800'"
+                *ngFor="let order_id of displayed_orders" draggable-window="true" [opened]="true">
+                <order-information [order_id]="order_id"></order-information>
+            </material-window>
+        </div>
+    </div>
+</div>

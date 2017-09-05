@@ -1,0 +1,82 @@
+<div class="card">
+    <div class="card-body">
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Общий вес заказа</label>
+                        <div class="fg-line">
+                            <input type="text" class="form-control" readonly="readonly"
+                               [value]="order.weight">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Из них распределено</label>
+                        <div class="fg-line">
+                            <input type="text" class="form-control" readonly="readonly"
+                               [value]="order.progress_weight || 0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="m-t-10">Вес для передачи: <sup class="text-danger">*</sup></label>
+                <div class="fg-line">
+                    <input type="text" class="form-control" formControlName="weight">
+                </div>
+            </div>
+            <tabs>
+
+                <tab [tabTitle]="'Автомобили списком'">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="fg-line">
+                                    <input type="text" formControlName="search" (ngModelChange)="onSearch($event)" class="form-control" placeholder="Search">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <material-table-order-crew
+                        [api_action]="'crew'"
+                        [columns]="columns"
+                        [search]="search"
+                        [sort]="sort"
+                        (action_table_sorting)="onSort($event)"
+                        [removable]=false
+                        [editable]=false>
+                    </material-table-order-crew>
+                    <template #checkCrew let-row="row">
+                        <div class="form-group">
+                            <div class="fg-line">
+                                <div class="checkbox m-b-15">
+                                    <label>
+                                        <input type="checkbox" [value]="row.crew_id" [checked]="isChecked(row.crew_id)"
+                                           [disabled]="isDisabled(row)" (change)="getValue($event.target)">
+                                        <i class="input-helper"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template #vehicle let-row="row">
+                        <p>{{row.mark}} {{row.model}}</p>
+                    </template>
+                </tab>
+                <tab [tabTitle]="'Автомобили на карте'">
+                    <orders-crew-maps *ngIf="longitude && latitude"
+                        [longitude]="longitude"
+                        [latitude]="latitude"
+                        [address]="address"
+                        (on_change)="changeMapState($event)">
+                    </orders-crew-maps>
+                </tab>
+            </tabs>
+            <div class="form-group">
+                <button type="submit" (click)="submit()" class="btn btn-primary m-t-20" [disabled]="!form.valid">Отправить</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+<div class="container">
+    <div class="block-header">
+        <h2>Список редактирования моделей и марок автомобилей</h2>
+    </div>
+    <div class="card">
+        <tabs>
+            <tab [tabTitle]="'Модели автомобилей'">
+                <div class="card-header">
+                    <h2>Список моделей <small>Небольшое описание этого компонента</small></h2>
+                    <ul class="actions">
+                        <li>
+                            <a href="javascript:void(0)" (click)="createFire()">
+                                <i class="zmdi zmdi-plus"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="bootgrid-header container-fluid">
+                                <div class="search form-group">
+                                    <div class="input-group">
+                                        <span class="zmdi icon input-group-addon zmdi-search zmdi-hc-fw"></span>
+                                        <input type="text" [ngModel]="searchModel" (ngModelChange)="onSearchModel($event)" class="search-field form-control" placeholder="Search">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <material-table 
+                    [api_action]="api_action" 
+                    [columns]="columns"
+                    [sort]="sortModel"
+                    [search]="searchModel"
+                    (action_table_sorting)="onSortModel($event)"
+                    (action_element_edit)="actionEditModel($event)" 
+                    (action_element_remove)="removeModel($event)">
+                    </material-table>
+                    <material-window draggable-window *ngFor="let model of models_on_edit" 
+                    [title]="window_title_edit_model" 
+                    [opened]="true" 
+                    (populate_state)="editWindowClose(model)">
+                        <model-edit 
+                        [model]="model" 
+                        (form_update)="onModelUpdate($event)"></model-edit>
+                    </material-window>
+                    <material-window draggable-window #createWindow
+                    [title]="window_title_create_model">
+                        <model-create 
+                        (form_create)="onModelCreate($event)">
+                        </model-create>
+                    </material-window>
+                    <template let-row="row">
+                    </template>
+                </div>
+            </tab>
+            <tab tabTitle="Марки автомобилей">
+              <div class="card-header">
+                    <h2>Список марок <small>Небольшое описание этого компонента</small></h2>
+                    <ul class="actions">
+                        <li>
+                            <a href="javascript:void(0)" (click)="createFireMark()">
+                                <i class="zmdi zmdi-plus"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="bootgrid-header container-fluid">
+                                <div class="search form-group">
+                                    <div class="input-group">
+                                        <span class="zmdi icon input-group-addon zmdi-search zmdi-hc-fw"></span>
+                                        <input type="text" [ngModel]="searchMark" (ngModelChange)="onSearchMark($event)" class="search-field form-control" placeholder="Search">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <material-table #mark
+                    [api_action]="api_action_mark" 
+                    [columns]="clmMark"
+                    [sort]="sortMark"
+                    [search]="searchMark"
+                    [removable]=false
+                    (action_table_sorting)="onSortMark($event)"
+                    (action_element_remove)="removeMark($event)"
+                    (action_element_edit)="actionEditMark($event)"> 
+                    </material-table>
+                    <material-window draggable-window *ngFor="let mark of mark_on_edit" 
+                    [title]="window_title_edit_mark" 
+                    [opened]="true" 
+                    (populate_state)="editWindowCloseMark(mark)">
+                        <mark-edit 
+                        [mark]="mark" 
+                        (form_update_mark)="onMarkUpdate($event)"></mark-edit>
+                    </material-window>
+                    <material-window draggable-window #createWindowMark
+                    [title]="window_title_create_mark">
+                        <mark-create 
+                        (form_create_mark)="onMarkCreate($event)">
+                        </mark-create>
+                    </material-window>
+                    <template let-row="row">
+                    </template>
+                </div>
+            </tab>
+        </tabs>
+    </div>
+</div>

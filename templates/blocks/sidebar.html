@@ -1,0 +1,53 @@
+<aside id="sidebar" *ngIf="user.is_authenticated">
+  <div class="sidebar-inner c-overflow">
+    <div class="profile-menu">
+      <a href="javascript:void(0)">
+        <div class="profile-pic">
+          <img src="/static/img/profile-pics/2.jpg" alt="">
+        </div>
+        <div class="profile-info">
+          {{user.fio}}
+          <i class="zmdi zmdi-caret-down"></i>
+        </div>
+      </a>
+    </div>
+    <ul class="main-menu">
+      <li>
+        <a routerLink=""><i class="zmdi zmdi-home"></i> Главная</a>
+      </li>
+      <li class="sub-menu">
+        <a toggle-submenu><i class="zmdi zmdi-car"></i> Автомобили</a>
+        <ul>
+          <li><a routerLink="/concrete/monitoring/vehicles/map">Автомобили на карте</a></li>
+          <li><a routerLink="/concrete/monitoring/vehicles/list">Автомобили списком</a></li>
+          <!--
+          <li><a routerLink="/settings/users">Автомобили список</a></li>
+          <li><a routerLink="/settings/users">Добавить автомобиль</a></li>
+          <li><a routerLink="/settings/users">Марки автомобилей</a></li>
+          -->
+        </ul>
+      </li>
+      <li class="sub-menu">
+        <a toggle-submenu><i class="zmdi zmdi-shopping-cart"></i> Заказы</a>
+        <ul>
+          <li><a routerLink="/concrete/orders/list">Список заказов</a></li>
+          <li><a routerLink="/concrete/orders/process">Список заказов в процессе</a></li>
+        </ul>
+      </li>
+      <li>
+            <a routerLink="/reports"><i class="zmdi zmdi-file"></i> Отчеты</a>
+      </li>
+      <li class="sub-menu">
+        <a toggle-submenu><i class="zmdi zmdi-settings"></i> Настройки</a>
+        <ul>
+          <li><a routerLink="/users">Список пользователей</a></li>
+          <li><a routerLink="/settings/vehicles/list">Список автомобилей</a></li>
+          <li><a routerLink="/settings/trailers/list">Список трейлеров</a></li>
+          <li><a routerLink="/settings/vehicles/models">Список марок и моделей автомобилей</a></li>
+          <li><a routerLink="/concrete/orders/entry_points">Точки погрузки</a></li>
+          <li><a routerLink="/concrete/orders/conclusion_points">Точки разгрузки</a></li>
+        </ul>
+      </li>
+     </ul>
+  </div>
+</aside>

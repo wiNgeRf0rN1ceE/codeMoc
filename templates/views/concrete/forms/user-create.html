@@ -1,0 +1,97 @@
+<form *ngIf="active" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h4>Основная информация</h4>
+  <div class="row m-t-20">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>Фамилия</label>
+        <div class="fg-line">
+          <input type="text" class="form-control" formControlName="fam">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>Имя <sup class="text-danger">*</sup></label>
+        <div class="fg-line">
+           <input type="text" class="form-control" formControlName="name">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>Отчество</label>
+        <div class="fg-line">
+          <input type="text" class="form-control" formControlName="otch">
+        </div>
+      </div>
+    </div>
+  </div>
+  <h4>Дополнительная информация</h4>
+  <div class="row m-t-20">
+  <div class="col-md-6">
+        <label>Група ТС:</label>
+        <ng-select [allowClear]="true"
+                [api_action]="'usr.group_list'"
+                [new_element]="create_group"
+                [afterNewValue]="afterNewValue"
+                [elementSelected]="elementSelected"
+                [clearSelectValue]="clearValue"
+                (selected)="selected($event)"
+                placeholder="Выбрать элемент">
+        </ng-select>
+    </div>
+    <div class="col-md-6">
+            <label>Компания:</label>
+            <ng-select 
+                [multiple]="true"
+                [api_action]="'company.list'"
+                [clearSelectValue]="clearValue"
+                (selected)="selectedCompany($event)"
+                (removed)="removedCompany($event)"
+                placeholder="Выбрать элемент">
+            </ng-select>
+    </div>
+    </div>
+  <h4>Данные для входа</h4>
+  <div class="row m-t-20">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>Логин <sup class="text-danger">*</sup></label>
+        <div class="fg-line">
+          <input type="text" class="form-control" formControlName="username">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>Пароль <sup class="text-danger">*</sup></label>
+        <div class="fg-line">
+          <input type="password" class="form-control" formControlName="password">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <div class="fg-line">
+          <div class="select">
+            <label>Тип пользователя <sup class="text-danger">*</sup></label>
+            <select formControlName="type" class="form-control">
+              <option value="" selected disabled>Выбрать элемент</option>
+              <option value="opr">Оператор</option>
+              <option value="drv">Водитель</option>
+              <option value="clt">Клиент</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="fg-line">
+      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Сохранить и закрыть</button>
+    </div>
+  </div>
+</form>
+<material-window #createGroup [title]="'Новая група пользователей'">
+    <user-group-create (send_value)="getValue($event)" (form_submit)="onGroupCreate($event)"></user-group-create>
+</material-window>

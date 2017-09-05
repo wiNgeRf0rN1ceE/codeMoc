@@ -1,0 +1,147 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label>Вид товара <sup class="text-danger">*</sup></label>
+            <ng-select 
+                [allowClear]="true"
+                [api_action]="'orders.kinds'"
+                [clearSelectValue]="clearValue"
+                [selectedData]="arrCurrentKind"
+                (selected)="selectedKinds($event)"
+                placeholder="Выбрать елемент">
+        </ng-select>
+    </div>
+    <div class="form-group">
+        <label>Марка товара <sup class="text-danger">*</sup></label>
+            <ng-select 
+                [allowClear]="true"
+                [api_action]="'orders.marks'"
+                [selectedData]="arrCurrentMark"
+                [clearSelectValue]="clearValue"
+                (selected)="selectedMarks($event)"
+                placeholder="Выбрать елемент">
+        </ng-select>
+    </div>
+    <div class="form-group">
+        <label>Форма товара <sup class="text-danger">*</sup></label>
+        <ng-select 
+                [allowClear]="true"
+                [api_action]="'orders.forms'"
+                [selectedData]="arrCurrentForm"
+                [clearSelectValue]="clearValue"
+                (selected)="selectedForms($event)"
+                placeholder="Выбрать елемент">
+        </ng-select>
+    </div>
+    <div class="form-group">
+        <label>Точка погрузки <sup class="text-danger">*</sup></label>
+            <ng-select 
+                [allowClear]="true"
+                [api_action]="'epnt.list'"
+                [new_element]="create_entry"
+                [selectedData]="arrCurrentEpnt"
+                [afterNewValue]="afterNewEpnt"
+                [elementSelected]="newSelectedEpnt"
+                [clearSelectValue]="clearValue"
+                (selected)="selectedEpnt($event)"
+                placeholder="Выбрать елемент">
+        </ng-select>
+    </div>
+    <div class="form-group">
+        <label>Точка разгрузки <sup class="text-danger">*</sup></label>
+        <ng-select 
+                [allowClear]="true"
+                [api_action]="'cpnt.list'"
+                [new_element]="create_conclusion"
+                [selectedData]="arrCurrentCpnt"
+                [afterNewValue]="afterNewCpnt"
+                [elementSelected]="newSelectedCpnt"
+                [clearSelectValue]="clearValue"
+                (selected)="selectedCpnt($event)"
+                placeholder="Выбрать елемент">
+        </ng-select>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label>Дата погрузки <sup class="text-danger">*</sup></label>
+            <div class="input-group form-group">
+                <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                <div class="dtp-container fg-line">
+                    <input class="form-control date-time-picker p-l-5" formControlName="entry_time" [ngModel]="entryTime" [returnObject]=" 'string' " [viewFormat]="'DD.MM.YYYY HH:mm'"
+                        [mode]="'dropdown'" [locale]=" 'ru' " [theme]=" 'gray' " [(dateTimePicker)]="entryTime" (dateTimePickerChange)="setEntry($event)"
+                        readonly>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label>Дата разгрузки <sup class="text-danger">*</sup></label>
+            <div class="input-group form-group">
+                <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                <div class="dtp-container fg-line">
+                    <input class="form-control date-time-picker p-l-5" formControlName="conclusion_time" [ngModel]="conclusionTime" [returnObject]=" 'string' " [viewFormat]="'DD.MM.YYYY HH:mm'"
+                        [mode]="'dropdown'" [locale]=" 'ru' " [theme]=" 'gray' " [(dateTimePicker)]="conclusionTime" (dateTimePickerChange)="setConclusion($event)"
+                        readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Контакт при погрузке <sup class="text-danger">*</sup></label>
+                <div class="fg-line">
+                    <input class="form-control" type="text" formControlName="entry_point_contact">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Контакт при разгрузке <sup class="text-danger">*</sup></label>
+                <div class="fg-line">
+                    <input class="form-control" type="text" formControlName="conclusion_point_contact">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Тоннаж <sup class="text-danger">*</sup></label>
+                <div class="fg-line">
+                    <input class="form-control" type="text" formControlName="order_weight">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Тариф (руб) <sup class="text-danger">*</sup></label>
+                <div class="fg-line">
+                    <input class="form-control" type="text" formControlName="order_price">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Комментарий к заказу<sup class="text-danger">*</sup></label>
+                <div class="fg-line">
+                    <textarea class="form-control" rows="5" formControlName="comment" placeholder="Ваш комментарий"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="fg-line">
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Сохранить и закрыть</button>
+        </div>
+    </div>
+</form>
+
+<material-window #createEntry [title]="'Новая точка погрузки'">
+    <entry-point-create (send_value)="getValueEpnt($event)"  (form_submit)="onEntryCreate($event)"></entry-point-create>
+</material-window>
+<material-window #createConclusion [title]="'Новая точка разгрузки'">
+    <conclusion-create (send_value)="getValueCpnt($event)"  (form_submit)="onConclusionCreate($event)"></conclusion-create>
+</material-window>

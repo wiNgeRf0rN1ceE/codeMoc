@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="block-header">
+        <h2>Список заказов в процессе</h2>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2>Список заказов в процессе  <small>Небольшое описание этого компонента</small></h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="bootgrid-header container-fluid">
+                        <div class="search form-group">
+                            <div class="input-group">
+                                <span class="zmdi icon input-group-addon zmdi-search zmdi-hc-fw"></span>
+                                <input type="text" [ngModel]="search" (ngModelChange)="onSearch($event)" class="search-field form-control" placeholder="Search">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <material-table
+                [api_action]="api_action"
+                [columns]="columns"
+                [removable]=false
+                [editable]=false              
+                [sort]="sort"
+                [search]="search"
+                (action_table_sorting)="onSort($event)"
+                (action_element_remove)="removeFire($event)">
+            </material-table>
+            <template let-row="row" #aboutBtn>
+                <button type="button" class="btn btn-default dropdown-toggle waves-effect"
+                        data-toggle="dropdown" aria-expanded="false" (click)="displayOrder(row.id)">
+                    Информация
+                </button>
+                <!--<a href="javascript:void(0)" class="btn btn-default btn-icon waves-effect waves-circle waves-float"
+                   (click)="displayOrder(row.id)">
+                    <i class="zmdi zmdi-info-outline"></i></a>-->
+            </template>
+            <material-window [title]="'Информация о заказе № ' + order_id" [cssClass]="'w-800'"
+                *ngFor="let order_id of displayed_orders" draggable-window="true" [opened]="true">
+                <order-information [order_id]="order_id"></order-information>
+            </material-window>
+        </div>
+    </div>
+</div>

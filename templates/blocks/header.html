@@ -1,0 +1,72 @@
+<header id="header" attr.data-current-skin="{{current_skin_color}}" *ngIf="user.is_authenticated">
+  <ul class="header-inner clearfix">
+    <li id="menu-trigger" data-target="mainmenu" uib-sidebar-toggle>
+      <div class="line-wrap">
+        <div class="line top"></div>
+        <div class="line center"></div>
+        <div class="line bottom"></div>
+      </div>
+    </li>
+    <li class="logo hidden-xs">
+      <a>Material Admin</a>
+    </li>
+    <li class="pull-right">
+      <ul class="top-menu">
+        <li class="dropdown" uib-dropdown>
+          <a uib-dropdown-toggle href="">
+            <i class="tm-icon zmdi zmdi-notifications"></i>
+            <i *ngIf="event_queue.length" class="tmn-counts">{{event_queue.length}}</i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg stop-propagate pull-right">
+            <div class="listview" [ngClass]="{empty: !event_queue.length}" id="notifications">
+              <div class="lv-header">
+                Уведомления
+                <ul class="actions">
+                  <li>
+                    <a href="javascript:void(0)" (click)="emptyQueue()">
+                      <i class="zmdi zmdi-check-all"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="lv-body">
+                <a class="lv-item" *ngFor="let notification of event_queue.notifications"
+                  (click)="cleanNotify(notification)">
+                    <div class="media">
+                      <div class="pull-left">
+                        <img class="lv-img-sm" [src]="notification.icon" alt="">
+                      </div>
+                      <div class="media-body">
+                        <div class="lv-title">{{notification.subject}}</div>
+                        <small class="lv-small">{{notification.body}}</small>
+                      </div>
+                    </div>
+                </a>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </li>
+        <li>  
+          <a href="https://api.cargodeal.ru/vehicles/Cargodeal.pdf">
+            <i class="tm-icon zmdi zmdi-info-outline"></i>
+          </a>
+        </li>
+        <li class="dropdown" uib-dropdown>
+            <a uib-dropdown-toggle href="">
+              <i class="tm-icon zmdi zmdi-more-vert"></i>
+            </a>
+            <ul class="dropdown-menu dm-icon pull-right">
+              <li>
+                <a href="javascript:void(0)" (click)="lockSession()">
+                    <i class="zmdi zmdi-lock"></i> Заблокировать программу</a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" (click)="logout()"><i class="zmdi zmdi-sign-in"></i> Завершить работу</a>
+              </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</header>
